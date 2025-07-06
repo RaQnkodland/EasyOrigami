@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Origami - El arte del plegado de papel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .floating-logo {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .paper-texture {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2IiBoZWlnaHQ9IjYiPgo8cmVjdCB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjZmZmZmZmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMNiA2TTYgMEwwIDYiIHN0cm9rZT0iI2VlZWVlZSIgc3Ryb2tlLXdpZHRoPSIxIj48L3BhdGg+Cjwvc3ZnPg==');
+        }
+        
+        .origami-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .origami-card:hover {
+            transform: translateY(-5px) rotateY(5deg);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-blue-50 font-sans paper-texture">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between">
+            <div class="flex items-center mb-4 md:mb-0">
+                <!-- Logo de ave de origami -->
+                <div class="floating-logo mr-3">
+                    <svg width="50" height="50" viewBox="0 0 100 100" class="text-blue-400">
+                        <path d="M50,10 L70,30 L80,20 L90,40 L70,50 L80,70 L50,80 L20,70 L30,50 L10,40 L20,20 L30,30 Z" fill="currentColor"/>
+                        <path d="M30,50 Q50,60 70,50" stroke="#ffffff" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold text-blue-600">Easy<span class="text-blue-400">Origami</span></h1>
+            </div>
+            <nav class="flex space-x-1 md:space-x-4">
+                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-blue-600 hover:bg-blue-50">Inicio</a>
+                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-blue-500 hover:bg-blue-50">Figuras</a>
+                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-blue-500 hover:bg-blue-50">Blog</a>
+                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-blue-500 hover:bg-blue-50">Contacto</a>
+                <a href="#" class="ml-2 px-4 py-2 rounded-md text-sm font-medium bg-blue-500 text-white hover:bg-blue-600">Regístrate</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-16 md:py-24 bg-gradient-to-b from-blue-100 to-white">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h2 class="text-4xl md:text-5xl font-bold text-blue-800 mb-6">Descubre el arte milenario del Origami</h2>
+                <p class="text-lg text-blue-600 mb-8">Aprende ahora en la comodidad de tu hogar a hacer todo tipo de figuras con el papel, en línea.</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#" class="px-8 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 text-center">Empieza ahora</a>
+                    <a href="#" class="px-8 py-3 border-2 border-blue-400 text-blue-600 rounded-lg font-medium hover:bg-blue-50 text-center">Ver demostración</a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="relative">
+                    <div class="absolute -top-6 -left-6 w-24 h-24 bg-blue-200 rounded-lg opacity-50"></div>
+                    <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-blue-300 rounded-lg opacity-50"></div>
+                    <div class="relative bg-white p-6 rounded-lg shadow-xl">
+                        <img src="https://images.unsplash.com/photo-1604186838347-9faaf0b83c2b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Figuras de origami" class="rounded-lg w-full h-auto">
+                        <div class="absolute -bottom-4 -right-4 bg-white p-2 rounded-full shadow-md">
+                            <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+                                <i class="fas fa-play text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-blue-800 mb-12">Beneficios de aprender Origami</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Beneficio 1 -->
+                <div class="origami-card bg-blue-50 p-6 rounded-lg border border-blue-100">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-brain text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">Desarrollo cognitivo</h3>
+                    <p class="text-blue-600">Mejora la memoria, la concentración y la capacidad de resolución de problemas. El origami estimula ambos hemisferios cerebrales.</p>
+                </div>
+                
+                <!-- Beneficio 2 -->
+                <div class="origami-card bg-blue-50 p-6 rounded-lg border border-blue-100">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-hands-helping text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">Coordinación motora</h3>
+                    <p class="text-blue-600">Fortalece la motricidad fina y la coordinación mano-ojo. Ideal para todas las edades, desde niños hasta adultos mayores.</p>
+                </div>
+                
+                <!-- Beneficio 3 -->
+                <div class="origami-card bg-blue-50 p-6 rounded-lg border border-blue-100">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-heart text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">Reducción del estrés</h3>
+                    <p class="text-blue-600">Actividad meditativa que reduce la ansiedad. El enfoque requerido en el plegado de papel promueve la atención plena.</p>
+                </div>
+                
+                <!-- Beneficio 4 -->
+                <div class="origami-card bg-blue-50 p-6 rounded-lg border border-blue-100">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-lightbulb text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">Creatividad</h3>
+                    <p class="text-blue-600">Libera tu imaginación diseñando tus propias figuras. El origami es un lienzo en blanco que fomenta la expresión artística.</p>
+                </div>
+                
+                <!-- Beneficio 5 -->
+                <div class="origami-card bg-blue-50 p-6 rounded-lg border border-blue-100">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-users text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">Socialización</h3>
+                    <p class="text-blue-600">Conecta con una comunidad global de entusiastas. Comparte tus creaciones y aprende de otros artistas del papel.</p>
+                </div>
+                
+                <!-- Beneficio 6 -->
+                <div class="origami-card bg-blue-50 p-6 rounded-lg border border-blue-100">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-graduation-cap text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">Aprendizaje continuo</h3>
+                    <p class="text-blue-600">Nunca dejas de aprender con el origami. Desde figuras básicas hasta complejos diseños modulares, siempre hay un nuevo reto.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-blue-600 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6">¿Listo para comenzar tu viaje en el origami?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Únete a nuestra comunidad y conviertete en un maestro del papel, ¡Totalmente gratis!</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#" class="px-8 py-3 bg-white text-blue-600 rounded-lg font-bold hover:bg-blue-50">Empieza gratis ahora</a>
+                <a href="#" class="px-8 py-3 border-2 border-white text-white rounded-lg font-bold hover:bg-blue-700">Más información</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <svg width="30" height="30" viewBox="0 0 100 100" class="text-blue-300 mr-2">
+                            <path d="M50,10 L70,30 L80,20 L90,40 L70,50 L80,70 L50,80 L20,70 L30,50 L10,40 L20,20 L30,30 Z" fill="currentColor"/>
+                        </svg>
+                        <h3 class="text-xl font-bold">EasyOrigami</h3>
+                    </div>
+                    <p class="text-blue-200">Desde 2025 enseñando el arte del plegado de papel a entusiastas alrededor del mundo.</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-blue-300 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-blue-300 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-blue-300 hover:text-white"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="text-blue-300 hover:text-white"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Cursos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-blue-200 hover:text-white">Principiantes</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white">Intermedio</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white">Avanzado</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white">Origami modular</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white">Origami técnico</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Recursos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-blue-200 hover:text-white">Blog</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white">Tutoriales gratis</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white">Patrones descargables</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white">Tienda de papeles</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white">Calendario de eventos</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contacto</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center"><i class="fas fa-envelope mr-2 text-blue-300"></i> <a href="mailto:info@origamionline.com" class="text-blue-200 hover:text-white">info@easyorigami.com</a></li>
+                        <li class="flex items-center"><i class="fas fa-phone mr-2 text-blue-300"></i> <span class="text-blue-200">+51 999 999 999</span></li>
+                        <li class="flex items-center"><i class="fas fa-map-marker-alt mr-2 text-blue-300"></i> <span class="text-blue-200">Lima, Perú</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-blue-700 mt-12 pt-8 text-center text-blue-300">
+                <p>&copy; 2025 EasyOrigami. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple animation for the testimonials
+        document.addEventListener('DOMContentLoaded', function() {
+            const testimonials = document.querySelectorAll('.origami-card');
+            
+            testimonials.forEach((card, index) => {
+                // Add delay to each card animation
+                card.style.transitionDelay = `${index * 0.1}s`;
+                
+                // Add hover effect
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Floating logo animation
+            const logo = document.querySelector('.floating-logo');
+            setInterval(() => {
+                logo.style.animation = 'none';
+                void logo.offsetWidth; // Trigger reflow
+                logo.style.animation = 'float 4s ease-in-out infinite';
+            }, 12000);
+        });
+    </script>
+</body>
+</html>
