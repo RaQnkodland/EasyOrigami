@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Origami - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="favicon2.png" type="image/png" />
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        @keyframes fold {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(5deg) scale(1.05); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
+        
+        .floating-logo {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .folding-element {
+            animation: fold 8s ease-in-out infinite;
+        }
+        
+        .paper-texture {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2IiBoZWlnaHQ9IjYiPgo8cmVjdCB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjZmZmZmZmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMNiA2TTYgMEwwIDYiIHN0cm9rZT0iI2VlZWVlZSIgc3Ryb2tlLXdpZHRoPSIxIj48L3BhdGg+Cjwvc3ZnPg==');
+        }
+        
+        .origami-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        .origami-card:hover {
+            transform: translateY(-5px) rotateY(5deg);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .paper-corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, transparent 0%, transparent 50%, #f0f9ff 50%, #f0f9ff 100%);
+            top: 0;
+            right: 0;
+            border-bottom-left-radius: 10px;
+        }
+        
+        .folding-paper {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .folding-paper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 60%);
+            z-index: 1;
+        }
+        
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.03);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .dropdown-menu {
+            animation: fadeIn 0.3s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .floating-bg-element {
+            position: absolute;
+            background-color: rgba(147, 197, 253, 0.2);
+            border-radius: 50%;
+            filter: blur(40px);
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="bg-blue-50 font-sans paper-texture relative overflow-x-hidden">
+    <!-- Floating background elements -->
+    <div class="floating-bg-element w-64 h-64 -top-32 -left-32"></div>
+    <div class="floating-bg-element w-96 h-96 -bottom-48 -right-48"></div>
+    
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between">
+            <div class="flex items-center mb-4 md:mb-0">
+                <!-- Logo de ave de origami -->
+                <div class="floating-logo mr-3">
+                    <svg width="50" height="50" viewBox="0 0 100 100" class="text-blue-400">
+                        <path d="M50,10 L70,30 L80,20 L90,40 L70,50 L80,70 L50,80 L20,70 L30,50 L10,40 L20,20 L30,30 Z" fill="currentColor"/>
+                        <path d="M30,50 Q50,60 70,50" stroke="#ffffff" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold text-blue-600">Easy<span class="text-blue-400">Origami</span></h1>
+            </div>
+            
+            <!-- Mobile menu button -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-blue-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-1 md:space-x-4">
+                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-blue-600 hover:bg-blue-50 nav-link">Inicio</a>
+                
+                <div class="dropdown relative">
+                    <button class="px-3 py-2 rounded-md text-sm font-medium text-blue-500 hover:bg-blue-50 flex items-center nav-link">
+                        Figuras <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div class="dropdown-menu hidden absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                        <a href="#" class="block px-4 py-2 text-sm text-blue-600 hover:bg-blue-50">Animales</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-blue-600 hover:bg-blue-50">Flores</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-blue-600 hover:bg-blue-50">Objetos</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-blue-600 hover:bg-blue-50">Geométricas</a>
+                    </div>
+                </div>
+                
+                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-blue-500 hover:bg-blue-50 nav-link">Blog</a>
+                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-blue-500 hover:bg-blue-50 nav-link">Contacto</a>
+                <a href="#" class="ml-2 px-4 py-2 rounded-md text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 transition-colors">Regístrate</a>
+            </nav>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-blue-100">
+            <div class="container mx-auto px-4 py-2 flex flex-col">
+                <a href="#" class="px-3 py-2 text-blue-600">Inicio</a>
+                <div class="px-3 py-2 text-blue-500">
+                    <div class="flex items-center justify-between">
+                        <span>Figuras</span>
+                        <button class="toggle-submenu">
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="submenu hidden pl-4 mt-2">
+                        <a href="#" class="block py-1 text-blue-600">Animales</a>
+                        <a href="#" class="block py-1 text-blue-600">Flores</a>
+                        <a href="#" class="block py-1 text-blue-600">Objetos</a>
+                        <a href="#" class="block py-1 text-blue-600">Geométricas</a>
+                    </div>
+                </div>
+                <a href="#" class="px-3 py-2 text-blue-500">Blog</a>
+                <a href="#" class="px-3 py-2 text-blue-500">Contacto</a>
+                <a href="#" class="px-3 py-2 mt-2 text-center bg-blue-500 text-white rounded-md">Regístrate</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-16 md:py-24 bg-gradient-to-b from-blue-100 to-white relative overflow-hidden">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0 relative z-10">
+                <h2 class="text-4xl md:text-5xl font-bold text-blue-800 mb-6 leading-tight">Descubre el arte milenario del <span class="text-blue-500">Origami</span></h2>
+                <p class="text-lg text-blue-600 mb-8">Aprende ahora en la comodidad de tu hogar a hacer todo tipo de figuras con el papel.</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#" class="px-8 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 text-center transition-colors shadow-lg hover:shadow-xl">Empieza ahora</a>
+                    <a href="#" class="px-8 py-3 border-2 border-blue-400 text-blue-600 rounded-lg font-medium hover:bg-blue-50 text-center transition-colors">Ver demostración</a>
+                </div>
+                
+            </div>
+            
+            <div class="md:w-1/2 flex justify-center relative">
+                <div class="relative folding-paper hover-scale">
+                    <div class="absolute -top-6 -left-6 w-24 h-24 bg-blue-200 rounded-lg opacity-50"></div>
+                    <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-blue-300 rounded-lg opacity-50"></div>
+                    <div class="paper-corner"></div>
+                    <img src="avepapel1.png" alt="Figuras de origami" class="rounded-lg w-full h-auto max-w-md shadow-xl">
+                </div>
+                
+                <!-- Floating elements -->
+                <div class="absolute top-20 -left-10 w-20 h-20 bg-blue-100 rounded-full opacity-30 z-0"></div>
+                <div class="absolute bottom-10 -right-10 w-24 h-24 bg-blue-200 rounded-full opacity-30 z-0"></div>
+                
+                <!-- Floating origami elements -->
+                <div class="absolute -top-10 right-20 folding-element z-10">
+                    <svg width="60" height="60" viewBox="0 0 100 100" class="text-blue-400">
+                        <path d="M50,10 L70,30 L80,20 L90,40 L70,50 L80,70 L50,80 L20,70 L30,50 L10,40 L20,20 L30,30 Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div class="absolute bottom-0 left-0 folding-element z-10" style="animation-delay: 2s;">
+                    <svg width="50" height="50" viewBox="0 0 100 100" class="text-blue-300">
+                        <path d="M50,10 L30,30 L20,20 L10,40 L30,50 L20,70 L50,80 L80,70 L70,50 L90,40 L80,20 L70,30 Z" fill="currentColor"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="inline-block px-3 py-1 text-sm font-semibold text-blue-600 bg-blue-100 rounded-full mb-3">Beneficios</span>
+                <h2 class="text-3xl font-bold text-blue-800">¿Por qué aprender Origami con nosotros?</h2>
+                <p class="text-blue-600 max-w-2xl mx-auto mt-4">Descubre todos los beneficios que obtendrás al unirte a nuestra comunidad de origami.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Beneficio 1 -->
+                <div class="origami-card bg-blue-50 p-6 rounded-lg border border-blue-100 relative overflow-hidden">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 text-blue-600">
+                        <i class="fas fa-brain text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">Desarrollo cognitivo</h3>
+                    <p class="text-blue-600">Mejora la memoria, la concentración y la capacidad de resolución de problemas. El origami estimula ambos hemisferios cerebrales.</p>
+                    <div class="absolute -right-4 -bottom-4 text-blue-200 text-6xl opacity-20">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                </div>
+                
+                <!-- Beneficio 2 -->
+                <div class="origami-card bg-blue-50 p-6 rounded-lg border border-blue-100 relative overflow-hidden">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 text-blue-600">
+                        <i class="fas fa-hands-helping text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">Coordinación motora</h3>
+                    <p class="text-blue-600">Fortalece la motricidad fina y la coordinación mano-ojo. Ideal para todas las edades, desde niños hasta adultos mayores.</p>
+                    <div class="absolute -right-4 -bottom-4 text-blue-200 text-6xl opacity-20">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                </div>
+                
+                <!-- Beneficio 3 -->
+                <div class="origami-card bg-blue-50 p-6 rounded-lg border border-blue-100 relative overflow-hidden">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 text-blue-600">
+                        <i class="fas fa-heart text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">Reducción del estrés</h3>
+                    <p class="text-blue-600">Actividad meditativa que reduce la ansiedad. El enfoque requerido en el plegado de papel promueve la atención plena.</p>
+                    <div class="absolute -right-4 -bottom-4 text-blue-200 text-6xl opacity-20">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                </div>
+                
+                <!-- Beneficio 4 -->
+                <div class="origami-card bg-blue-50 p-6 rounded-lg border border-blue-100 relative overflow-hidden">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 text-blue-600">
+                        <i class="fas fa-lightbulb text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">Creatividad</h3>
+                    <p class="text-blue-600">Libera tu imaginación diseñando tus propias figuras. El origami es un lienzo en blanco que fomenta la expresión artística.</p>
+                    <div class="absolute -right-4 -bottom-4 text-blue-200 text-6xl opacity-20">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                </div>
+                
+                <!-- Beneficio 5 -->
+                <div class="origami-card bg-blue-50 p-6 rounded-lg border border-blue-100 relative overflow-hidden">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 text-blue-600">
+                        <i class="fas fa-users text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">Socialización</h3>
+                    <p class="text-blue-600">Conecta con una comunidad global de entusiastas. Comparte tus creaciones y aprende de otros artistas del papel.</p>
+                    <div class="absolute -right-4 -bottom-4 text-blue-200 text-6xl opacity-20">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                
+                <!-- Beneficio 6 -->
+                <div class="origami-card bg-blue-50 p-6 rounded-lg border border-blue-100 relative overflow-hidden">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 text-blue-600">
+                        <i class="fas fa-graduation-cap text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">Aprendizaje continuo</h3>
+                    <p class="text-blue-600">Nunca dejas de aprender con el origami. Desde figuras básicas hasta complejos diseños modulares, siempre hay un nuevo reto.</p>
+                    <div class="absolute -right-4 -bottom-4 text-blue-200 text-6xl opacity-20">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Courses -->
+    <section class="py-16 bg-blue-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="inline-block px-3 py-1 text-sm font-semibold text-blue-600 bg-blue-100 rounded-full mb-3">Cursos</span>
+                <h2 class="text-3xl font-bold text-blue-800">Nuestros cursos más populares</h2>
+                <p class="text-blue-600 max-w-2xl mx-auto mt-4">Aprende desde lo más básico hasta técnicas avanzadas con nuestros instructores expertos.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Curso 1 -->
+                <div class="origami-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1604186839103-0c61d1f7a1e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Origami Básico" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2 bg-yellow-400 text-xs font-bold px-2 py-1 rounded-full">Más popular</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-blue-800">Origami Básico</h3>
+                            <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded">Principiante</span>
+                        </div>
+                        <p class="text-blue-600 mb-4">Aprende los fundamentos del origami con figuras sencillas y divertidas.</p>
+                        <div class="flex items-center mb-4">
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-lg font-bold text-blue-800">Gratis</span>
+                            </div>
+                            <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600 transition-colors">Ver curso</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Curso 2 -->
+                <div class="origami-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1604186838342-4d4309d58d15?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Animales de Origami" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-blue-800">Animales de Origami</h3>
+                            <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded">Intermedio</span>
+                        </div>
+                        <p class="text-blue-600 mb-4">Crea una variedad de animales con técnicas de plegado avanzadas.</p>
+                        <div class="flex items-center mb-4">
+                            
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-lg font-bold text-blue-800">$8</span>
+                            </div>
+                            <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600 transition-colors">Ver curso</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Curso 3 -->
+                <div class="origami-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1604186838342-4d4309d58d15?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Origami Modular" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2 bg-green-400 text-xs font-bold px-2 py-1 rounded-full">Nuevo</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-blue-800">Origami Modular</h3>
+                            <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded">Avanzado</span>
+                        </div>
+                        <p class="text-blue-600 mb-4">Domina el arte de crear estructuras complejas con múltiples piezas.</p>
+                        <div class="flex items-center mb-4">
+
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-lg font-bold text-blue-800">$15</span>
+                            </div>
+                            <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600 transition-colors">Ver curso</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="#" class="px-6 py-3 border-2 border-blue-500 text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors inline-flex items-center">
+                    Ver todos los cursos <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-blue-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="inline-block px-3 py-1 text-sm font-semibold text-blue-600 bg-blue-100 rounded-full mb-3">FAQ</span>
+                <h2 class="text-3xl font-bold text-blue-800">Preguntas frecuentes</h2>
+                <p class="text-blue-600 max-w-2xl mx-auto mt-4">Aquí respondemos a las dudas más comunes sobre nuestros cursos de origami.</p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto">
+                <!-- Pregunta 1 -->
+                <div class="mb-4 border-b border-blue-100 pb-4">
+                    <button class="faq-question flex justify-between items-center w-full text-left font-semibold text-blue-800 hover:text-blue-600 focus:outline-none">
+                        <span>¿Necesito experiencia previa en origami?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer mt-2 text-blue-600 hidden">
+                        <p>No, no necesitas ninguna experiencia previa. Nuestros cursos están diseñados para todos los niveles, desde principiantes absolutos hasta expertos que quieren perfeccionar sus técnicas. Ofrecemos rutas de aprendizaje claras que te guiarán desde lo más básico hasta técnicas avanzadas.</p>
+                    </div>
+                </div>
+                
+                <!-- Pregunta 2 -->
+                <div class="mb-4 border-b border-blue-100 pb-4">
+                    <button class="faq-question flex justify-between items-center w-full text-left font-semibold text-blue-800 hover:text-blue-600 focus:outline-none">
+                        <span>¿Qué materiales necesito para comenzar?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer mt-2 text-blue-600 hidden">
+                        <p>Para la mayoría de nuestros cursos básicos e intermedios, solo necesitarás papel cuadrado de origami, que puedes comprar en cualquier tienda de manualidades o incluso hacerlo recortando papel normal. Para cursos avanzados, te recomendaremos papeles especiales según las técnicas que vayas a aprender. En cada curso encontrarás una lista detallada de los materiales necesarios.</p>
+                    </div>
+                </div>
+                
+                <!-- Pregunta 3 -->
+                <div class="mb-4 border-b border-blue-100 pb-4">
+                    <button class="faq-question flex justify-between items-center w-full text-left font-semibold text-blue-800 hover:text-blue-600 focus:outline-none">
+                        <span>¿Cómo funciona el acceso a los cursos?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer mt-2 text-blue-600 hidden">
+                        <p>Una vez que te registres en un curso, tendrás acceso inmediato y permanente a todo su contenido. Puedes ver las lecciones a tu propio ritmo, cuantas veces quieras, desde cualquier dispositivo. Además, tendrás acceso a actualizaciones futuras del curso sin costo adicional.</p>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="#" class="text-blue-600 font-medium hover:text-blue-800 inline-flex items-center">
+                    Ver más preguntas frecuentes <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-blue-600 text-white relative overflow-hidden">
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <div class="max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold mb-6">¿Listo para comenzar tu viaje en el origami?</h2>
+                <p class="text-xl mb-8">Únete a nuestra comunidad y conviértete en un maestro del papel.</p>
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#" class="px-8 py-3 bg-white text-blue-600 rounded-lg font-bold hover:bg-blue-50 transition-colors shadow-lg">Empieza gratis ahora</a>
+                    <a href="#" class="px-8 py-3 border-2 border-white text-white rounded-lg font-bold hover:bg-blue-700 transition-colors">Más información</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Floating origami elements -->
+        <div class="absolute top-10 left-10 folding-element opacity-20">
+            <svg width="80" height="80" viewBox="0 0 100 100" class="text-white">
+                <path d="M50,10 L70,30 L80,20 L90,40 L70,50 L80,70 L50,80 L20,70 L30,50 L10,40 L20,20 L30,30 Z" fill="currentColor"/>
+            </svg>
+        </div>
+        <div class="absolute bottom-20 right-20 folding-element opacity-20" style="animation-delay: 2s;">
+            <svg width="60" height="60" viewBox="0 0 100 100" class="text-white">
+                <path d="M50,10 L30,30 L20,20 L10,40 L30,50 L20,70 L50,80 L80,70 L70,50 L90,40 L80,20 L70,30 Z" fill="currentColor"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto bg-blue-50 rounded-xl p-8 md:p-10 shadow-sm">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 mb-6 md:mb-0">
+                        <h3 class="text-2xl font-bold text-blue-800 mb-2">Suscríbete a nuestro boletín</h3>
+                        <p class="text-blue-600">Recibe tutoriales gratuitos, promociones exclusivas y noticias sobre origami directamente en tu correo.</p>
+                    </div>
+                    <div class="md:w-1/2 md:pl-8">
+                        <form class="flex flex-col sm:flex-row gap-3">
+                            <input type="email" placeholder="Tu correo electrónico" class="flex-grow px-4 py-2 rounded-md border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-md font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Suscribirse</button>
+                        </form>
+                        <p class="text-xs text-blue-500 mt-2">Nos preocupamos por tu privacidad. Nunca compartiremos tu información.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <svg width="30" height="30" viewBox="0 0 100 100" class="text-blue-300 mr-2">
+                            <path d="M50,10 L70,30 L80,20 L90,40 L70,50 L80,70 L50,80 L20,70 L30,50 L10,40 L20,20 L30,30 Z" fill="currentColor"/>
+                        </svg>
+                        <h3 class="text-xl font-bold">EasyOrigami</h3>
+                    </div>
+                    <p class="text-blue-200 mb-4">Desde 2025 enseñando el arte del plegado de papel a entusiastas alrededor del mundo.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center text-blue-200 hover:text-white hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center text-blue-200 hover:text-white hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center text-blue-200 hover:text-white hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center text-blue-200 hover:text-white hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-pinterest-p"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Cursos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Principiantes</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Intermedio</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Avanzado</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Origami modular</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Origami técnico</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Recursos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Tutoriales gratis</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Patrones descargables</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Tienda de papeles</a></li>
+                        <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Calendario de eventos</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contacto</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-2 text-blue-300"></i>
+                            <a href="mailto:info@easyorigami.com" class="text-blue-200 hover:text-white transition-colors">info@easyorigami.com</a>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone mt-1 mr-2 text-blue-300"></i>
+                            <span class="text-blue-200">+51 999 999 999</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-2 text-blue-300"></i>
+                            <span class="text-blue-200">Lima, Perú</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-clock mt-1 mr-2 text-blue-300"></i>
+                            <span class="text-blue-200">Lunes a Viernes: 9am - 6pm</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-blue-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-blue-300 mb-4 md:mb-0">&copy; 2025 EasyOrigami. Todos los derechos reservados.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-blue-300 hover:text-white transition-colors">Términos de servicio</a>
+                    <a href="#" class="text-blue-300 hover:text-white transition-colors">Política de privacidad</a>
+                    <a href="#" class="text-blue-300 hover:text-white transition-colors">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 bg-blue-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-blue-600 transition-colors opacity-0 invisible">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Toggle submenus in mobile
+        document.querySelectorAll('.toggle-submenu').forEach(button => {
+            button.addEventListener('click', function() {
+                const submenu = this.parentElement.nextElementSibling;
+                submenu.classList.toggle('hidden');
+                this.querySelector('i').classList.toggle('fa-chevron-down');
+                this.querySelector('i').classList.toggle('fa-chevron-up');
+            });
+        });
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const answer = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                
+                // Toggle answer
+                answer.classList.toggle('hidden');
+                
+                // Toggle icon
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+                
+                // Close other open answers
+                document.querySelectorAll('.faq-question').forEach(q => {
+                    if (q !== this) {
+                        q.nextElementSibling.classList.add('hidden');
+                        q.querySelector('i').classList.remove('fa-chevron-up');
+                        q.querySelector('i').classList.add('fa-chevron-down');
+                    }
+                });
+            });
+        });
+
+        // Back to top button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Card hover animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.origami-card');
+            
+            cards.forEach((card, index) => {
+                // Add delay to each card animation
+                card.style.transitionDelay = `${index * 0.1}s`;
+                
+                // Add hover effect
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Floating logo animation
+            const logo = document.querySelector('.floating-logo');
+            setInterval(() => {
+                logo.style.animation = 'none';
+                void logo.offsetWidth; // Trigger reflow
+                logo.style.animation = 'float 4s ease-in-out infinite';
+            }, 12000);
+        });
+    </script>
+</body>
+</html>
